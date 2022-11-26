@@ -9,7 +9,7 @@ import Mastodon from "mastodon";
 // Schedules the handler function to run at midnight on
 // Mondays, Wednesday, and Friday
 const handler = schedule("@hourly", async (event) => {
-  console.log("Received event, posting ...");
+  
 
   const mastodon = new Mastodon({
     access_token: "gyG6CqeULjD5mkNS23fmzUPPxKIZbQMhKmS3H2wOMM4",
@@ -17,22 +17,25 @@ const handler = schedule("@hourly", async (event) => {
     api_url: "https://botsin.space/api/v1/",
   });
 
-  var id: string = "";
-  const imagesDir = "public/twitter-export";
-
-  console.log(imagesDir)
+  let id: string = "";
+  const imagesDir: string = "public/twitter-export";
+  const baseDir = path.join(process.cwd(), imagesDir);
 
   //   post a random images from public/twitter-export
   fs.readdir(imagesDir, (err, files) => {
     if (err) {
-      console.log(err);
+      console.error(err)
+      return {
+        statusCode: 500,
+      };
     } else {
       var random = Math.floor(Math.random() * files.length);
       var file = files[random];
 
-      const imagePath = path.join(imagesDir, file)
-      console.log(imagePath);
+      const imagePath = path.join(baseDir, file)
 
+      console.log(imagePath)
+    
       mastodon
         .post("media", { file: fs.createReadStream(imagePath) })
         .then((resp) => {
