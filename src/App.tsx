@@ -1,5 +1,4 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
 import './App.css'
 
 function App() {
@@ -9,6 +8,7 @@ function App() {
   const [img, setImg] = useState('')
 
   const getRandomImage = async () => {
+
     const response = await fetch('/twitter-export/file-list.json')
     const json = await response.json()
     const img = json[Math.floor(Math.random() * json.length)]

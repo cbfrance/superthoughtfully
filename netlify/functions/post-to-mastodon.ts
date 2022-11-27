@@ -4,11 +4,13 @@ import path from "path";
 
 import Mastodon from "mastodon";
 
+// "Yeah, that's really too bad"  — Phoebe
 // https://github.com/hylyh/node-mastodon
 // Schedules the handler function to run at midnight on
 // Mondays, Wednesday, and Friday
 const handler = schedule("@hourly", async (event) => {
-  console.log("------------------- Received event, posting ...");
+  console.log("------------------- CWD:");
+  console.log(process.cwd());
   console.log(event);
 
   const mastodon = new Mastodon({
